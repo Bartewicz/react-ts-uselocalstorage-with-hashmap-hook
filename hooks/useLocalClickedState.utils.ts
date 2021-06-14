@@ -14,7 +14,7 @@ export type ClickedState = {
   isClicked: boolean
 }
 
-export type IdsMap = Map<string, Type.Id[]>
+type IdsMap = Map<string, Type.Id[]>
 
 export function restoreLocalIdsMap(localStorageKey: string): IdsMap {
   try {

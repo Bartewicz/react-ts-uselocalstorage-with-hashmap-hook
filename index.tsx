@@ -7,7 +7,7 @@ import './style.css';
 function App(): JSX.Element {
   return (
     <div>
-      <Header title={'useClickedState from LocalStorage'} />
+      <Header />
       <Todos />
     </div>
   );

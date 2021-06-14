@@ -1,15 +1,12 @@
 import { useCallback, useEffect, useState } from "react"
-import moment from "moment"
 import { Type } from "../types"
-import { isAfter, isSameOrBefore, toMomentISODate, defaultsTo } from "../utils"
+import { defaultsTo } from "../utils"
 import {
   ClickedState,
-  IdsMap,
   Item,
   restoreLocalIdsMap,
   storeMapLocally,
   toItemWithClickedState,
-  toNewIdsMap,
   toValidIdsMap
 } from "./useLocalClickedState.utils"
 
