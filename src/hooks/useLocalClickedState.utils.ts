@@ -1,16 +1,16 @@
-import moment, { Moment } from "moment"
-import { Type } from "../types"
+import moment, { Moment } from 'moment'
+import { Type } from '../types'
 import {
   isAfter,
   isNotNull,
   isSameOrBefore,
   isValidRecord,
-  toMomentISODate
-} from "../utils"
+  toMomentISODate,
+} from '../utils'
 
 export type Item<T> = T & { id: string }
 
-export type ClickedState = {
+export interface ClickedState {
   isClicked: boolean
 }
 
@@ -33,7 +33,7 @@ export function toNewIdsMap(
 ): (newIdsMap: IdsMap, date: Moment) => IdsMap {
   return (newIdsMap: IdsMap, date: Moment) => {
     const key = date.utc().toISOString()
-    return newIdsMap.set(key, oldIdsMap.get(key))
+    return newIdsMap.set(key, oldIdsMap.get(key) as Type.Id[])
   }
 }
 
@@ -55,8 +55,8 @@ export function storeMapLocally(map: IdsMap, key: string): void {
 export function toItemWithClickedState<T>(
   storedIds: Type.Id[]
 ): (item: Item<T>) => Item<T> & ClickedState {
-  return item => ({
+  return (item) => ({
     ...item,
-    isClicked: storedIds.includes(item.id)
+    isClicked: storedIds.includes(item.id),
   })
 }

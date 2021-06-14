@@ -1,8 +1,10 @@
 import React from 'react'
-import { TodoWithClickedState } from '../hooks/useLocalClickedState.hook'
+import { ClickedState } from '../hooks/useLocalClickedState.utils'
+import '../index.css'
+import { Type } from '../types'
 
-interface TodoProps extends TodoWithClickedState {
-  onClick: (id: number) => void
+interface TodoProps extends ClickedState, Type.Todo {
+  onClick: (id: string) => void
 }
 
 export function Todo(props: TodoProps): JSX.Element {

@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from "react"
-import { Type } from "../types"
-import { defaultsTo } from "../utils"
+import { useCallback, useEffect, useState } from 'react'
+import { Type } from '../types'
+import { defaultsTo } from '../utils'
 import {
   ClickedState,
   Item,
   restoreLocalIdsMap,
   storeMapLocally,
   toItemWithClickedState,
-  toValidIdsMap
-} from "./useLocalClickedState.utils"
+  toValidIdsMap,
+} from './useLocalClickedState.utils'
 
 const MINUTE = 60000 // ms
 
@@ -23,6 +23,7 @@ export function useLocalClickedState<T>(
 
   useEffect(() => {
     const interval = setInterval(() => {
+      console.log('interval')
       const validIdsMap = toValidIdsMap(storedIdsMap)
       if (!Object.is(storedIdsMap, validIdsMap)) {
         storeMapLocally(validIdsMap, localStorageKey)
@@ -30,13 +31,13 @@ export function useLocalClickedState<T>(
       }
     }, refreshInterval)
     return () => clearInterval(interval)
-  }, [])
+  })
 
   const storedIds = [...storedIdsMap.values()].flat()
   const onStoreId = useCallback(
     (id: string, expirationDate: string): void => {
       try {
-        if (storedIds.some(storedId => storedId === id)) {
+        if (storedIds.some((storedId) => storedId === id)) {
           return
         }
         const currentIdsAtSameKey = defaultsTo(
@@ -45,7 +46,7 @@ export function useLocalClickedState<T>(
         )
         const newStoredIdsMap = new Map(storedIdsMap).set(expirationDate, [
           ...currentIdsAtSameKey,
-          id
+          id,
         ])
         storeMapLocally(newStoredIdsMap, localStorageKey)
         setStoredIdsMap(newStoredIdsMap)
@@ -53,7 +54,7 @@ export function useLocalClickedState<T>(
         return
       }
     },
-    [storedIds, localStorageKey]
+    [storedIds, storedIdsMap, localStorageKey]
   )
 
   const itemsWithClickedState = defaultsTo(items, [] as Item<T>[]).map(

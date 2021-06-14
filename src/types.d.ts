@@ -1,5 +1,5 @@
 export declare namespace Type {
-  type Id = string | number;
+  type Id = string;
 
   interface Todo {
     id: TodoId;
@@ -8,5 +8,5 @@ export declare namespace Type {
     userId: number;
   }
 
-  type TodoId = number;
+  type TodoId = Id;
 }
