@@ -1,6 +1,6 @@
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { useLocalClickedState } from '../hooks/useLocalClickedState.hook'
+import { usePersistentClickedState } from '../hooks/usePersistentClickedState.hook'
 import '../index.css'
 import { Type } from '../types'
 import { isNotNull } from '../utils'
@@ -21,7 +21,7 @@ const fetchTodos = async (): Promise<Type.Todo[]> => {
 
 export function Todos(): JSX.Element | null {
   const [fetchedTodos, setTodos] = useState<Type.Todo[] | null>(null)
-  const [todos, setSeenTodo] = useLocalClickedState(
+  const [todos, setSeenTodo] = usePersistentClickedState(
     fetchedTodos,
     LOCAL_STORAGE_KEY,
     FIFTEEN_SECONDS
