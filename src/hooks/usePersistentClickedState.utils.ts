@@ -1,18 +1,12 @@
-import moment, { Moment } from 'moment'
-import { Type } from '../types'
-import {
+import moment, { Moment } from "moment"
+import { Type } from "../types"
+import { 
   isAfter,
   isNotNull,
   isSameOrBefore,
   isValidRecord,
   toMomentISODate,
-} from '../utils'
-
-export type Item<T> = T & { id: string }
-
-export interface ClickedState {
-  isClicked: boolean
-}
+} from "../utils"
 
 type IdsMap = Map<string, Type.Id[]>
 
@@ -38,7 +32,7 @@ export function toNewIdsMap(
 }
 
 export function toValidIdsMap(oldIdsMap: IdsMap): IdsMap {
-  const expirationDates = [...oldIdsMap.keys()].map(toMomentISODate)
+  const expirationDates = Array.from(oldIdsMap.keys()).map(toMomentISODate)
   const now = moment().utc()
   if (expirationDates.some(isSameOrBefore(now))) {
     const validDates = expirationDates.filter(isAfter(now))
@@ -50,13 +44,4 @@ export function toValidIdsMap(oldIdsMap: IdsMap): IdsMap {
 
 export function storeMapLocally(map: IdsMap, key: string): void {
   localStorage.setItem(key, JSON.stringify(Object.fromEntries(map)))
-}
-
-export function toItemWithClickedState<T>(
-  storedIds: Type.Id[]
-): (item: Item<T>) => Item<T> & ClickedState {
-  return (item) => ({
-    ...item,
-    isClicked: storedIds.includes(item.id),
-  })
 }
