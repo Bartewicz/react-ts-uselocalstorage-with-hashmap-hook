@@ -20,11 +20,9 @@ const fetchTodos = async (): Promise<Type.Todo[]> => {
 }
 
 export function Todos(): JSX.Element | null {
-  const [fetchedTodos, setTodos] = useState<Type.Todo[] | null>(null)
-  const [todos, setSeenTodo] = usePersistentClickedState(
-    fetchedTodos,
-    LOCAL_STORAGE_KEY,
-    FIFTEEN_SECONDS
+  const [todos, setTodos] = useState<Type.Todo[] | null>(null)
+  const [seenTodoIds, setSeenTodo] = usePersistentClickedState(
+    LOCAL_STORAGE_KEY
   )
 
   useEffect(() => {
@@ -47,7 +45,12 @@ export function Todos(): JSX.Element | null {
       <p>Todos:</p>
       <div className='todos-list'>
         {todos.map((todo) => (
-          <Todo key={todo.id} onClick={onClick(todo)} {...todo} />
+          <Todo
+            key={todo.id}
+            onClick={onClick(todo)}
+            isClicked={seenTodoIds.includes(todo.id)}
+            {...todo}
+            />
         ))}
       </div>
     </section>

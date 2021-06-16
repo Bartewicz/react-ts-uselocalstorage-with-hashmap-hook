@@ -3,7 +3,8 @@ import { ClickedState } from '../hooks/useLocalClickedState.utils'
 import '../index.css'
 import { Type } from '../types'
 
-interface TodoProps extends ClickedState, Type.Todo {
+interface TodoProps extends Type.Todo {
+  isClicked: boolean
   onClick: (id: string) => void
 }
 
