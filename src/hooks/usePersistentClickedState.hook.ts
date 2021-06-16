@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Type } from "../types"
 import { defaultsTo } from "../utils"
 import {
@@ -7,12 +7,22 @@ import {
   toValidIdsMap,
 } from "./usePersistentClickedState.utils"
 
-export function usePersistentClickedState<T>(
+export function usePersistentClickedState(
   localStorageKey: string
 ): [string[], (id: Type.Id, expirationDate: string) => void] {
   const [storedIdsMap, setStoredIdsMap] = useState<Map<string, Type.Id[]>>(() =>
     toValidIdsMap(restoreLocalIdsMap(localStorageKey))
   )
+
+  useEffect(() => {
+    function onStorageUpdate() {
+      const updatedIdsMap = restoreLocalIdsMap(localStorageKey)
+      setStoredIdsMap(updatedIdsMap)
+    }
+
+    window.addEventListener("storage", onStorageUpdate)
+    return () => window.removeEventListener("storage", onStorageUpdate)
+  }, [])
 
   const storedIds = Array.from(storedIdsMap.values()).flat()
   const onStoreId = useCallback(
