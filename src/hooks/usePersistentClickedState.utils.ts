@@ -1,6 +1,6 @@
 import moment, { Moment } from "moment"
 import { Type } from "../types"
-import { 
+import {
   isAfter,
   isNotNull,
   isSameOrBefore,
@@ -8,7 +8,7 @@ import {
   toMomentISODate,
 } from "../utils"
 
-type IdsMap = Map<string, Type.Id[]>
+export type IdsMap = Map<string, Type.Id[]>
 
 export function restoreLocalIdsMap(localStorageKey: string): IdsMap {
   try {

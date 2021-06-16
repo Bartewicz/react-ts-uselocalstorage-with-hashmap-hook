@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import { Type } from "../types"
 import { defaultsTo } from "../utils"
 import {
+  IdsMap,
   restoreLocalIdsMap,
   storeMapLocally,
   toValidIdsMap,
@@ -10,14 +11,13 @@ import {
 export function usePersistentClickedState(
   localStorageKey: string
 ): [string[], (id: Type.Id, expirationDate: string) => void] {
-  const [storedIdsMap, setStoredIdsMap] = useState<Map<string, Type.Id[]>>(() =>
+  const [storedIdsMap, setStoredIdsMap] = useState<IdsMap>(() =>
     toValidIdsMap(restoreLocalIdsMap(localStorageKey))
   )
 
   useEffect(() => {
     function onStorageUpdate() {
-      const updatedIdsMap = restoreLocalIdsMap(localStorageKey)
-      setStoredIdsMap(updatedIdsMap)
+      setStoredIdsMap(toValidIdsMap(restoreLocalIdsMap(localStorageKey)))
     }
 
     window.addEventListener("storage", onStorageUpdate)
